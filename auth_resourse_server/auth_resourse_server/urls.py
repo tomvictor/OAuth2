@@ -62,7 +62,7 @@ urlpatterns = [
         ),
     ),
     path("api/hello", views.ApiEndpoint.as_view()),  # an example resource endpoint
-    path("api/test", views.secret_page),  # an example resource endpoint
+    path("api/test/", views.secret_page),  # an example resource endpoint
     path("admin/", admin.site.urls),
     path("users/", views.UserList.as_view()),
     path("users/<pk>/", views.UserDetails.as_view()),
