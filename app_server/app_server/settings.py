@@ -167,7 +167,7 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer", "JWT"),
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+    "AUTH_TOKEN_CLASSES": ("auth.tokens.CustomAccessToken",),
     "TOKEN_TYPE_CLAIM": "token_type",
     "JTI_CLAIM": "jti",
     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
@@ -183,3 +183,6 @@ CORS_ALLOW_METHODS = list(default_methods)
 CORS_ALLOW_HEADERS = list(default_headers) + ["message"]
 CORS_EXPOSE_HEADERS = ["status_code"] + ["message"]
 CORS_ALLOW_CREDENTIALS = True
+
+
+OAUTH2_CLIENT_SECRET_KEY = ""
