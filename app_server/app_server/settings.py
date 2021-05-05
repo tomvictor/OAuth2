@@ -139,7 +139,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
     ),
-    "EXCEPTION_HANDLER": "base.exception.custom_exception_handler",
+    "EXCEPTION_HANDLER": "rest_framework.views.exception_handler",
     "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
     "TEST_REQUEST_RENDERER_CLASSES": [
@@ -154,27 +154,30 @@ REST_FRAMEWORK = {
 
 ACCESS_TOKEN_LIFETIME = os.environ.get("ACCESS_TOKEN_LIFETIME", 1)
 REFRESH_TOKEN_LIFETIME = os.environ.get("REFRESH_TOKEN_LIFETIME", 2)
+
+
+OAUTH2_CLIENT_SECRET_KEY = SECRET_KEY
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": datetime.timedelta(hours=int(ACCESS_TOKEN_LIFETIME)),
     "REFRESH_TOKEN_LIFETIME": datetime.timedelta(hours=int(REFRESH_TOKEN_LIFETIME)),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,
+    "SIGNING_KEY": OAUTH2_CLIENT_SECRET_KEY,
     "VERIFYING_KEY": None,
     "AUDIENCE": None,
     "ISSUER": None,
     "AUTH_HEADER_TYPES": ("Bearer", "JWT"),
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
-    "AUTH_TOKEN_CLASSES": ("auth.tokens.CustomAccessToken",),
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
     "TOKEN_TYPE_CLAIM": "token_type",
     "JTI_CLAIM": "jti",
     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
     "SLIDING_TOKEN_LIFETIME": datetime.timedelta(minutes=5),
     "SLIDING_TOKEN_REFRESH_LIFETIME": datetime.timedelta(days=1),
 }
-
+AUTH_USER_MODEL = "auth.User"
 AUTHENTICATION_BACKENDS = ("auth.backends.CustomModelBackend",)
 
 
@@ -183,6 +186,3 @@ CORS_ALLOW_METHODS = list(default_methods)
 CORS_ALLOW_HEADERS = list(default_headers) + ["message"]
 CORS_EXPOSE_HEADERS = ["status_code"] + ["message"]
 CORS_ALLOW_CREDENTIALS = True
-
-
-OAUTH2_CLIENT_SECRET_KEY = ""
