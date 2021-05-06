@@ -41,9 +41,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # dependencies
+    # Apps
+    "account",
+    # Third party apps
     "corsheaders",
     "rest_framework",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -135,7 +138,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "auth.authentication.CustomJWTAuthentication",
+        "account.authentication.CustomJWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
     ),
@@ -157,6 +160,10 @@ REFRESH_TOKEN_LIFETIME = os.environ.get("REFRESH_TOKEN_LIFETIME", 2)
 
 
 OAUTH2_CLIENT_SECRET_KEY = SECRET_KEY
+OAUTH2_CLIENT_ID = "test client"
+OAUTH2_AUTHORIZATION_URL = "http://127.0.0.1:8001"
+OAUTH2_DEFAULT_SCOPE = "identity:users,identity:roles"
+OAUTH2_GRANT_TYPE = "password"
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": datetime.timedelta(hours=int(ACCESS_TOKEN_LIFETIME)),
     "REFRESH_TOKEN_LIFETIME": datetime.timedelta(hours=int(REFRESH_TOKEN_LIFETIME)),
@@ -177,8 +184,8 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_LIFETIME": datetime.timedelta(minutes=5),
     "SLIDING_TOKEN_REFRESH_LIFETIME": datetime.timedelta(days=1),
 }
-AUTH_USER_MODEL = "auth.User"
-AUTHENTICATION_BACKENDS = ("auth.backends.CustomModelBackend",)
+AUTH_USER_MODEL = "account.User"
+AUTHENTICATION_BACKENDS = ("account.backends.CustomModelBackend",)
 
 
 CORS_ORIGIN_ALLOW_ALL = True
